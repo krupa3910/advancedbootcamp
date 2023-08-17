@@ -35,3 +35,31 @@ for ticker in tickers:
 
 companies_df = pd.DataFrame(ticker_data)
 ticker_data
+
+#######################################################################################
+
+def get_price_data(ticker, date):
+    open_close = "https://api.polygon.io/v1/open-close/{ticker}/{date}?adjusted=true&apiKey={polygon_key}"
+    r = requests.get(open_close.format(polygon_key=polygon_key, ticker=ticker, date=date))
+    response_text = r.text
+    response_dict = json.loads(response_text)
+    interested_keys = ["from","symbol","open","high","low","close"]
+    compressed_dict = {}
+    for key in interested_keys:
+        compressed_dict[key] = response_dict[key]    
+    return copy.deepcopy(compressed_dict)
+
+import pandas as pd
+tickers = ["AAPL", "AMZN", "TSLA", "GOOGL"]
+ticker_prices = []   
+date = "2023-02-06"
+for ticker in tickers:
+    ticker_prices.append(get_price_data(ticker, date))
+ticker_data_df = pd.DataFrame(ticker_prices)
+
+ticker = "AMZN"
+ticker_prices = []   
+ticker_dates = ["2023-02-06","2023-02-01","2023-01-17","2023-01-12"]
+for date in ticker_dates:
+    ticker_prices.append(get_price_data(ticker, date))
+ticker_data_df = pd.DataFrame(ticker_prices)
