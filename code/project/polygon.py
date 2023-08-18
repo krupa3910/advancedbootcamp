@@ -62,4 +62,4 @@ ticker_prices = []
 ticker_dates = ["2023-02-06","2023-02-01","2023-01-17","2023-01-12"]
 for date in ticker_dates:
     ticker_prices.append(get_price_data(ticker, date))
-ticker_data_df = pd.DataFrame(ticker_prices)
+
